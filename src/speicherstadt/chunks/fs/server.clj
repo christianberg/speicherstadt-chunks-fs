@@ -33,7 +33,8 @@
                     :upload-path upload-path})))))
 
 (defn chunk-path [base-dir id]
-  (fs/file base-dir id))
+  (when-let [[_ l1 l2 l3] (re-matches chunk-regex id)]
+    (fs/file base-dir l1 l2 l3 id)))
 
 (defn store-chunk [base-dir]
   (fn [ctx]
@@ -41,6 +42,7 @@
           upload-path (:upload-path ctx)]
       (if (= hash (get-in ctx [:parameters :path :id]))
         (let [path (chunk-path base-dir hash)]
+          (fs/mkdirs (fs/parent path))
           (fs/rename upload-path path)
           nil)
         (do
@@ -71,14 +73,18 @@
     :parameters {:path {:id chunk-regex}}
     :properties (chunk-properties base-dir)}))
 
-(def chunk-list-resource
+(defn list-chunks [base-dir]
+  (fn [ctx]
+    {:chunks (sort (map fs/base-name (fs/find-files base-dir chunk-regex)))}))
+
+(defn chunk-list-resource [base-dir]
   (yada/resource
    {:methods {:get {:produces #{"application/json" "application/edn"}
-                    :response {:chunks []}}}}))
+                    :response (list-chunks base-dir)}}}))
 
 (defn chunk-routes [base-dir]
   ["/chunks"
-   {"" chunk-list-resource
+   {"" (chunk-list-resource base-dir)
     ["/" [chunk-regex :id]] (chunk-resource base-dir)}])
 
 (defn routes [base-dir]
