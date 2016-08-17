@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [aero "1.0.0"]
                  [aleph "0.4.1"]
-                 [bidi "2.0.8"]
+                 [bidi "2.0.9"]
                  [com.stuartsierra/component "0.3.1"]
                  [me.raynes/fs "1.4.6"]
                  [yada "1.1.31"]]
