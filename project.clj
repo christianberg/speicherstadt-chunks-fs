@@ -6,10 +6,10 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [aero "1.0.0"]
                  [aleph "0.4.1"]
-                 [bidi "2.0.9"]
+                 [bidi "2.0.10"]
                  [com.stuartsierra/component "0.3.1"]
                  [me.raynes/fs "1.4.6"]
-                 [yada "1.1.31"]]
+                 [yada "1.1.33"]]
   :main ^:skip-aot speicherstadt.chunks.fs.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
