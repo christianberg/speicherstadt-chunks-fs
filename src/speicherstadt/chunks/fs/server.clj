@@ -1,7 +1,6 @@
 (ns speicherstadt.chunks.fs.server
   (:require
    [aleph.http :as http]
-   [bidi.vhosts :as bv]
    [byte-streams :as bs]
    [com.stuartsierra.component :as component]
    [manifold.deferred :as deferred]
@@ -95,13 +94,11 @@
                      listener]
   component/Lifecycle
   (start [this]
+    (assert base-dir "Configuration value for 'base-dir' is not set.")
     (assert (fs/directory? base-dir) (format "Directory %s does not exist" base-dir))
     (if listener
       this
-      (let [vhosts-model (bv/vhosts-model [{:scheme :http
-                                            :host (format "localhost:%d" port)}
-                                           (routes base-dir)])
-            listener (yada/listener vhosts-model {:port port})]
+      (let [listener (yada/listener (routes base-dir) {:port port})]
         (assoc this :listener listener))))
 
   (stop [this]
