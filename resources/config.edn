@@ -1,4 +1,5 @@
 {:server
  #profile {:dev {:port 3005
                  :base-dir "./tmp/test-data"}
-           :prod {:port 4003}}}
+           :prod {:port 80
+                  :base-dir "/data"}}}
