@@ -55,6 +55,14 @@
                       (body-options "Hello World"))]
         (is (= 409 (:status response)))))
 
+    (testing "PUTting a chunk with malformed hash fails"
+      (let [response (response-for
+                      handler
+                      :put
+                      (str "/chunks/foobar")
+                      (body-options "Hello World"))]
+        (is (= 404 (:status response)))))
+
     (testing "GET an existing chunk"
       (let [response (response-for
                       handler

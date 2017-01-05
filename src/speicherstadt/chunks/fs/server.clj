@@ -82,9 +82,12 @@
                     :response (list-chunks base-dir)}}}))
 
 (defn routes [base-dir]
-  ["/chunks"
-   {"" (chunk-list-resource base-dir)
-    ["/" [chunk-regex :id]] (chunk-resource base-dir)}])
+  ["/"
+   [
+    ["chunks"
+     [["" (chunk-list-resource base-dir)]
+      [["/" [chunk-regex :id]] (chunk-resource base-dir)]]]
+    [true (yada/as-resource nil)]]])
 
 (s/defrecord Server [port :- s/Int
                      base-dir :- s/Str
