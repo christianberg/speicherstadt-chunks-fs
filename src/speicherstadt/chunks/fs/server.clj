@@ -81,13 +81,10 @@
    {:methods {:get {:produces #{"application/json" "application/edn"}
                     :response (list-chunks base-dir)}}}))
 
-(defn chunk-routes [base-dir]
+(defn routes [base-dir]
   ["/chunks"
    {"" (chunk-list-resource base-dir)
     ["/" [chunk-regex :id]] (chunk-resource base-dir)}])
-
-(defn routes [base-dir]
-  ["" (yada/swaggered (chunk-routes base-dir) {})])
 
 (s/defrecord Server [port :- s/Int
                      base-dir :- s/Str

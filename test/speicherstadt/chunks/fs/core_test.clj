@@ -4,7 +4,7 @@
    [cheshire.core :as json]
    [clojure.test :refer :all]
    [me.raynes.fs :as fs]
-   [speicherstadt.chunks.fs.server :refer [chunk-routes]]
+   [speicherstadt.chunks.fs.server :refer [routes]]
    [yada.test :refer [response-for]])
   (:import [java.math BigInteger]
            [java.security MessageDigest]))
@@ -25,7 +25,7 @@
 
 (deftest chunk-acceptance
   (let [tmp-dir (fs/temp-dir "chunktest-")
-        handler (chunk-routes tmp-dir)]
+        handler (routes tmp-dir)]
     (testing "List of chunks is empty before uploading any chunks"
       (let [response (response-for handler :get "/chunks")]
         (is (= 200 (:status response)))
